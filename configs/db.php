@@ -4,13 +4,13 @@ $config= [
                 'type'      =>  'mysql',
                 'hostname'  =>  'localhost',
                 'username'  =>  'root',
-                'password'  =>  'root',
+                'password'  =>  'liufeng',
                 'dbName'    =>  'train',
                 'charset'   =>  'utf8',
                 'params'    =>array(),
               ],
     'slave'=>[
-                'obx'=>
+                'ttc'=>
                 [
                     'type'      =>  'mysql',
                     'hostname'  =>  '192.168.1.62',
@@ -20,7 +20,7 @@ $config= [
                     'charset'   =>  'utf8',
                     'params'    =>array(),
                 ],
-             'ttc'=>
+             'wxn'=>
                 [
                     'type'      =>  'mysql',
                     'hostname'  =>  '192.168.1.41',

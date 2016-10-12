@@ -8,39 +8,90 @@
 namespace vendor\base;
 
 use vendor\core\Factory;
+use vendor\core\Iterator;
+use vendor\core\Proxy;
+use vendor\core\Register;
 
 class Model
 {
+    protected $tableName='';   //数据表名，不包含前缀
+    protected $trueTableName='';//数据表名，包含前缀
     protected $db=null;
     function __construct()
     {
-        $this->db=Factory::getDb();
+//        $this->db=Factory::getDb();
+    }
+    public function getModelName()
+    {
+        $class=get_class($this);
+        $len=strlen($class);
+        $class=substr($class,0,$len-5);
+        $pos=strrpos($class,'\\');
+        $class=substr($class,$pos+1);
+        return $class;
+    }
+    private function getTableName()
+    {
+        if($this->trueTableName)
+        {
+            return $this->trueTableName;
+        }
+        else
+        {
+            return  strtolower(preg_replace('/((?<=[a-z])(?=[A-Z]))/', '_', $this->getModelName()));
+        }
     }
 
     function all($type=1)
     {
-        $sql='select * from student';
+        $table=$this->getTableName();
+        $this->db=Proxy::readDb();
+        $sql="select * from $table";
         switch ($type)
         {
             case 1:
-                return $this->getAssoc($sql);
+                $iterator= new Iterator($this->getAssoc($sql));
+                Register::set($table,$iterator);
+                return $iterator;
                 break;
             default:
-                return $this->getRow($sql);
+                $iterator= new Iterator($this->getRow($sql));
+                Register::set($table,$iterator);
+                return $iterator;
                 break;
         }
     }
-
+    function update($id)
+    {
+        $this->db=Proxy::writeDb();
+        $sql="update student set stu_name='赵敏' where id=$id";
+        $this->exeDml($sql);
+    }
+    function one($id=1)
+    {
+        $table=$this->getTableName();
+        if(Register::get($table))
+            $all=Register::get($table);
+        else
+            $all=$this->all();
+        while($all->valid())
+        {
+            if($all->key()==$id-1)
+                break;
+            $all->next();
+        }
+        return $all->current();
+    }
+    
     private function exeDql($sql)
     {
-        $res=$this->db->query($sql) or die ("执行 $sql 错误".$this->db->error);
+        $res=$this->db->query($sql) ;
         return $res;
     }
-    private  function exeDml($sql)
+
+    private function exeDml($sql)
     {
-        $res=$this->db->query($sql) or die ($this->db->error);
-        $num=$this->db->affected_rows;
-        return $num;
+        return $this->db->exeDml($sql);
     }
     private  function getAssoc($sql)
     {
