@@ -1,10 +1,10 @@
 <?php
 $config= [
     'master'=>[
-                'type'      =>  'pdo',
+                'type'      =>  'mysql',
                 'hostname'  =>  'localhost',
                 'username'  =>  'root',
-                'password'  =>  'liufeng',
+                'password'  =>  'root',
                 'dbName'    =>  'train',
                 'charset'   =>  'utf8',
                 'params'    =>array(),
