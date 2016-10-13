@@ -4,7 +4,7 @@ $config= [
                 'type'      =>  'mysql',
                 'hostname'  =>  'localhost',
                 'username'  =>  'root',
-                'password'  =>  'liufeng',
+                'password'  =>  'root',
                 'dbName'    =>  'train',
                 'charset'   =>  'utf8',
                 'params'    =>array(),
@@ -13,17 +13,17 @@ $config= [
                 'ttc'=>
                 [
                     'type'      =>  'mysql',
-                    'hostname'  =>  '192.168.1.62',
+                    'hostname'  =>  '192.168.1.52',
                     'username'  =>  'guest',
                     'password'  =>  '',
                     'dbName'    =>  'train',
                     'charset'   =>  'utf8',
                     'params'    =>array(),
                 ],
-             'wxn'=>
+             'tzy'=>
                 [
                     'type'      =>  'mysql',
-                    'hostname'  =>  '192.168.1.41',
+                    'hostname'  =>  '192.168.1.52',
                     'username'  =>  'guest',
                     'password'  =>  '',
                     'dbName'    =>  'train',
